@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "tailwindcss";
+
+@theme {
+  --background-image-wall-paper-sm: url("/src/assets/bg-sm.jpg");
+  --background-image-wall-paper: url("/src/assets/bg.jpg");
+}
+
+:root {
+  text-rendering: optimizeLegibility;
+}
+* {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 100%;
+  height: max-content;
+  min-height: 100vh;
+}
