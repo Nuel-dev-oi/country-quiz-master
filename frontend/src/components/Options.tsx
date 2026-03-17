@@ -23,15 +23,16 @@ const Options: React.FC<{ optionLen: number }> = ({
   return (
     <div
       ref={divRef}
-      className="w-full gap-2 flex flex-col justify-center items-start p-2 whitespace-nowrap text-xl bg-transparent h-max max-[400px]:h-[calc(100%-16px-20%-15%)]"
+      className="sm:m-auto sm:w-full lg:w-[calc(100%-15%)] w-full gap-2 flex flex-col justify-center items-start p-2 whitespace-nowrap text-xl bg-transparent h-max max-[400px]:h-[calc(100%-16px-20%-15%)] sm:flex-wrap sm:flex-row sm:items-center sm:gap-4"
     >
-      {new Array(optionLen).fill("option goes here").map((option) => {
+      {new Array(optionLen).fill("option goes here").map((option, index) => {
         return (
           <div
+            key={index}
             onClick={(e) => {
               handleClick(e);
             }}
-            className="cursor-pointer grow sm:grow-0 rounded-md p-1.25 bg-blue-900 w-full text-sm flex justify-center items-center from-pink-500 from-40% to-purple-500"
+            className="cursor-pointer grow sm:grow-0 rounded-md p-2 sm:p-4 bg-blue-900 w-full sm:w-[calc(100%/2-100px)] lg:w-[calc(100%/2-100px)]  text-sm flex justify-center items-center from-pink-500 from-40% to-purple-500"
           >
             {option}
           </div>

@@ -38,8 +38,8 @@ const NumberTab: React.FC = (): React.JSX.Element => {
   return (
     <div
       ref={spanRef}
-      className="w-full gap-3 flex-wrap flex justify-center items-start bg-blue-950 h-[30%] max-[400px]:h-[20%] "
-    > 
+      className="w-full gap-3 flex-wrap flex justify-center items-start bg-blue-950 h-[30%] max-[400px]:h-[20%] md:items-center"
+    >
       {new Array(10).fill(0).map((_, index) => {
         return (
           <span

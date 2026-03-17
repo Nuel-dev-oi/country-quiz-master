@@ -58,11 +58,11 @@ const Header = (): React.JSX.Element => {
 
     return () => cancelAnimationFrame(animationID);
   }, []);
-  
+
   return (
     <header
       ref={ref}
-      className="sticky top-0 w-screen flex justify-center items-center h-[10vh] bg-gray-800 text-white p-4 text-center text-2xl md:text-3xl font-bold"
+      className="font-bitcount font-bold sm:p-6 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-2 sticky top-0 w-screen flex justify-center items-center h-[10vh] bg-gray-800 text-white p-4 text-center text-2xl md:text-3xl"
     >
       {COUNTRY_QUIZ_MASTER.split("").map((char, index) => {
         return (
