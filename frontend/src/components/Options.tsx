@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-const Options: React.FC<{ optionLen: number }> = ({
-  optionLen,
+const Options: React.FC<{ optionsArr: string[]; number: number }> = ({
+  optionsArr,
+  number,
 }): React.JSX.Element => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -15,17 +16,25 @@ const Options: React.FC<{ optionLen: number }> = ({
         div.classList.remove("bg-linear-to-r");
         div.classList.add("bg-blue-900");
       }
+
       e.currentTarget.classList.add("bg-linear-to-r");
       e.currentTarget.classList.remove("bg-blue-950");
     });
   };
 
+  useEffect(() => {
+    const current = divRef.current;
+    current?.querySelectorAll("div").forEach((div) => {
+      div.classList.remove("bg-linear-to-r");
+      div.classList.add("bg-blue-900");
+    });
+  }, [number]);
   return (
     <div
       ref={divRef}
       className="sm:m-auto sm:w-full lg:w-[calc(100%-15%)] w-full gap-2 flex flex-col justify-center items-start p-2 whitespace-nowrap text-xl bg-transparent h-max max-[400px]:h-[calc(100%-16px-20%-15%)] sm:flex-wrap sm:flex-row sm:items-center sm:gap-4"
     >
-      {new Array(optionLen).fill("option goes here").map((option, index) => {
+      {optionsArr.map((option, index) => {
         return (
           <div
             key={index}
