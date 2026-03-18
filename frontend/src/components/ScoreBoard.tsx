@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import QuestionContext from "./QuestionContext";
 
 const ScoreBoard = (): React.JSX.Element => {
   const [score, setScore] = useState<number>(0);
+  const numbers = useContext(QuestionContext);
+  console.info(numbers);
 
   useEffect(() => {
     (function () {
