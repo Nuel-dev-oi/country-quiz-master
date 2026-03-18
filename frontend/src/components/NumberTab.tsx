@@ -1,6 +1,12 @@
 import React, { useRef, useEffect } from "react";
 
-const NumberTab: React.FC = (): React.JSX.Element => {
+interface click {
+  (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void;
+}
+
+const NumberTab: React.FC<{ onClick: click }> = ({
+  onClick,
+}): React.JSX.Element => {
   const spanRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -46,6 +52,7 @@ const NumberTab: React.FC = (): React.JSX.Element => {
             key={index}
             onClick={(e) => {
               handleClick(e);
+              onClick(e);
             }}
             className="transition-colors duration-500 ease-in-out cursor-pointer rounded-[100%] w-8 h-8 flex justify-center items-center bg-blue-900 text-center font-medium text-sm from-pink-500 to-purple-300"
           >
