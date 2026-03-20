@@ -4,7 +4,7 @@ import Question from "./Question";
 import Options from "./Options";
 import QuestionContext from "./QuestionContext";
 
-const QuestionTab: React.FC = (): React.JSX.Element => {
+const QuestionTab: React.FC<{ setScore: React.Dispatch<number | ((prev: number) => number)> }> = ({ setScore }): React.JSX.Element => {
   const questions = useContext(QuestionContext);
   const [number, setNumber] = useState<number>(1);
   const [options, setOptions] = useState<string[]>([]);
@@ -32,7 +32,7 @@ const QuestionTab: React.FC = (): React.JSX.Element => {
         onSetOptions={onSetOptions}
         onSetAnswer={onSetAnswer}
       />
-      <Options number={number} optionsArr={options} answer={answer} />
+      <Options number={number} optionsArr={options} answer={answer}  setScore={setScore} />
     </section>
   );
 };

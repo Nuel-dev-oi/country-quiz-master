@@ -2,22 +2,26 @@ import React, { useState } from "react";
 import checkMark from "../assets/Check_round_fill.svg";
 import closeMark from "../assets/Close_round_fill.svg";
 
-const Options: React.FC<{ optionsArr: string[]; number: number, answer: string }> = ({
+const Options: React.FC<{ optionsArr: string[]; number: number, answer: string, setScore: React.Dispatch<number | ((prev: number) => number)> }> = ({
   optionsArr,
   number,
   answer,
+  setScore,
 }) => {
  
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
 
   const handleClick = (index: number) => {
-    // Prevent changing the answer once a choice is made for this question
     if (userAnswers[number] !== undefined) return;
 
     setUserAnswers((prev) => ({
       ...prev,
       [number]: index,
     }));
+
+    if (optionsArr[index] === answer) {
+      setScore((prev) => prev + 1);
+    }
   };
 
   const currentSelection = userAnswers[number];
@@ -28,8 +32,8 @@ const Options: React.FC<{ optionsArr: string[]; number: number, answer: string }
       {optionsArr.map((option, index) => {
         const isUserPick = currentSelection === index;
         const isActualCorrect = option === answer;
-
-        const shouldShowGradient = isUserPick || (hasAnswered && isActualCorrect);
+        
+        const shouldShowGradient = isUserPick;
 
         return (
           <div
