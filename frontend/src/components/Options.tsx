@@ -1,49 +1,57 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState } from "react";
+import checkMark from "../assets/Check_round_fill.svg";
+import closeMark from "../assets/Close_round_fill.svg";
 
-const Options: React.FC<{ optionsArr: string[]; number: number }> = ({
+const Options: React.FC<{ optionsArr: string[]; number: number, answer: string }> = ({
   optionsArr,
   number,
-}): React.JSX.Element => {
-  const divRef = useRef<HTMLDivElement>(null);
+  answer,
+}) => {
+ 
+  const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const current = divRef.current;
-    if (!current) return;
-    const divs: NodeListOf<HTMLDivElement> = current.querySelectorAll("div");
-    divs.forEach((div) => {
-      const hasBgGradient = div.classList.contains("bg-linear-to-r");
-      if (hasBgGradient) {
-        div.classList.remove("bg-linear-to-r");
-        div.classList.add("bg-blue-900");
-      }
+  const handleClick = (index: number) => {
+    // Prevent changing the answer once a choice is made for this question
+    if (userAnswers[number] !== undefined) return;
 
-      e.currentTarget.classList.add("bg-linear-to-r");
-      e.currentTarget.classList.remove("bg-blue-950");
-    });
+    setUserAnswers((prev) => ({
+      ...prev,
+      [number]: index,
+    }));
   };
 
-  useEffect(() => {
-    const current = divRef.current;
-    current?.querySelectorAll("div").forEach((div) => {
-      div.classList.remove("bg-linear-to-r");
-      div.classList.add("bg-blue-900");
-    });
-  }, [number]);
+  const currentSelection = userAnswers[number];
+  const hasAnswered = currentSelection !== undefined;
+
   return (
-    <div
-      ref={divRef}
-      className="sm:m-auto sm:w-full lg:w-[calc(100%-15%)] w-full gap-2 flex flex-col justify-center items-start p-2 whitespace-nowrap text-xl bg-transparent h-max max-[400px]:h-[calc(100%-16px-20%-15%)] sm:flex-wrap sm:flex-row sm:items-center sm:gap-4"
-    >
+    <div className="sm:m-auto sm:w-full lg:w-[calc(100%-15%)] w-full gap-2 flex flex-col justify-center items-start p-2 whitespace-nowrap text-xl bg-transparent h-max sm:flex-wrap sm:flex-row sm:items-center sm:gap-4">
       {optionsArr.map((option, index) => {
+        const isUserPick = currentSelection === index;
+        const isActualCorrect = option === answer;
+
+        const shouldShowGradient = isUserPick || (hasAnswered && isActualCorrect);
+
         return (
           <div
             key={index}
-            onClick={(e) => {
-              handleClick(e);
-            }}
-            className="cursor-pointer grow sm:grow-0 rounded-md p-2 sm:p-4 bg-blue-900 w-full sm:w-[calc(100%/2-100px)] lg:w-[calc(100%/2-100px)]  text-sm flex justify-center items-center from-pink-500 from-40% to-purple-500"
+            onClick={() => handleClick(index)}
+            className={`gap-5 cursor-pointer grow sm:grow-0 rounded-md p-2 sm:p-4 w-full sm:w-[calc(100%/2-100px)] lg:w-[calc(100%/2-100px)] text-sm flex justify-center items-center transition-all 
+              ${shouldShowGradient 
+                ? "bg-linear-to-r from-pink-500 from-40% to-purple-500" 
+                : "bg-blue-900"
+              }`}
           >
-            {option}
+            <span>{option}</span>
+            
+            <div className="flex gap-2 ml-auto">
+              {hasAnswered && isActualCorrect && (
+                <img src={checkMark} alt="correct" className="w-5 h-5" />
+              )}
+
+              {isUserPick && !isActualCorrect && (
+                <img src={closeMark} alt="wrong" className="w-5 h-5" />
+              )}
+            </div>
           </div>
         );
       })}

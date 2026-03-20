@@ -5,7 +5,8 @@ const Question: React.FC<{
   number: number;
   questions: QuizQuestions;
   onSetOptions: (value: string[]) => void;
-}> = ({ number, questions, onSetOptions }): React.JSX.Element => {
+  onSetAnswer: (value: string) => void;
+}> = ({ number, questions, onSetOptions, onSetAnswer }): React.JSX.Element => {
   const [question, setQuestion] = useState<string>("");
   const filteredQuestions = useRef<QuizQuestions>([]);
 
@@ -17,10 +18,11 @@ const Question: React.FC<{
       });
       if (filteredQuestion) {
         onSetOptions(filteredQuestion.options);
+        onSetAnswer(filteredQuestion.answer);
       }
     };
     handleSetOptions();
-  }, [onSetOptions, question]);
+  }, [onSetOptions, onSetAnswer, question]);
 
   useEffect(() => {
     if (!questions || questions.length === 0) return;
