@@ -4,8 +4,9 @@ interface click {
   (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void;
 }
 
-const NumberTab: React.FC<{ onClick: click }> = ({
+const NumberTab: React.FC<{ onClick: click, reset: boolean }> = ({
   onClick,
+  reset,
 }): React.JSX.Element => {
   const spanRef = useRef<HTMLDivElement>(null);
 
@@ -14,12 +15,12 @@ const NumberTab: React.FC<{ onClick: click }> = ({
     if (!current) return;
     const spans: NodeListOf<HTMLSpanElement> = current.querySelectorAll("span");
     spans.forEach((span) => {
-      const hasBgGradient = span.classList.contains("bg-linear-to-r");
+      const hasBgGradient = span.classList.contains("bg-pink-500");
       if (hasBgGradient) {
-        span.classList.remove("bg-linear-to-r");
+        span.classList.remove("bg-pink-500");
         span.classList.add("bg-blue-900");
       }
-      e.currentTarget.classList.add("bg-linear-to-r");
+      e.currentTarget.classList.add("bg-pink-500");
       e.currentTarget.classList.remove("bg-blue-950");
     });
   };
@@ -33,13 +34,30 @@ const NumberTab: React.FC<{ onClick: click }> = ({
       spans.forEach((span, index) => {
         if (index === 0) {
           span.classList.remove("bg-blue-900");
-          span.classList.add("bg-linear-to-r");
+          span.classList.add("bg-pink-500");
           return;
         }
       });
     };
     loadBGColor();
   }, []);
+  useEffect(() => {
+    if (reset) {
+      const current = spanRef.current;
+      if (!current) return;
+      const spans: NodeListOf<HTMLSpanElement> =
+        current.querySelectorAll("span");
+      spans.forEach((span, index) => {
+        if (index === 0) {
+          span.classList.remove("bg-blue-900");
+          span.classList.add("bg-pink-500");
+        } else {
+          span.classList.remove("bg-pink-500");
+          span.classList.add("bg-blue-900");
+        }
+      });
+    }
+  }, [reset]);
 
   return (
     <div

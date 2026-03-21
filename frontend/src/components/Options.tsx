@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // <-- Added useEffect here!
 import checkMark from "../assets/Check_round_fill.svg";
 import closeMark from "../assets/Close_round_fill.svg";
 
-const Options: React.FC<{ optionsArr: string[]; number: number, answer: string, setScore: React.Dispatch<number | ((prev: number) => number)> }> = ({
-  optionsArr,
-  number,
-  answer,
-  setScore,
-}) => {
- 
+const Options: React.FC<{
+  optionsArr: string[];
+  number: number;
+  answer: string;
+  setScore: React.Dispatch<number | ((prev: number) => number)>;
+  reset: boolean;
+  setReset: React.Dispatch<boolean>;
+}> = ({ optionsArr, number, answer, reset, setScore, setReset }) => {
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
+
+  useEffect(() => {
+    const handleReset = () => {
+      if (reset) {
+        setUserAnswers({});
+        setReset(false); 
+      }
+    };
+    handleReset();
+  }, [reset, setReset]);
 
   const handleClick = (index: number) => {
     if (userAnswers[number] !== undefined) return;
@@ -32,7 +43,8 @@ const Options: React.FC<{ optionsArr: string[]; number: number, answer: string, 
       {optionsArr.map((option, index) => {
         const isUserPick = currentSelection === index;
         const isActualCorrect = option === answer;
-        
+
+
         const shouldShowGradient = isUserPick;
 
         return (
@@ -46,12 +58,10 @@ const Options: React.FC<{ optionsArr: string[]; number: number, answer: string, 
               }`}
           >
             <span>{option}</span>
-            
             <div className="flex gap-2 ml-auto">
               {hasAnswered && isActualCorrect && (
                 <img src={checkMark} alt="correct" className="w-5 h-5" />
               )}
-
               {isUserPick && !isActualCorrect && (
                 <img src={closeMark} alt="wrong" className="w-5 h-5" />
               )}
