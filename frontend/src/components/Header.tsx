@@ -1,6 +1,13 @@
 import React, { useEffect, useRef } from "react";
+import congrats from "../assets/congrats.png";
 
-const Header = (): React.JSX.Element => {
+const Header = ({
+  isFinished,
+  score,
+}: {
+  isFinished: boolean;
+  score: number;
+}): React.JSX.Element => {
   const ref = useRef<HTMLElement>(null);
   const opacityRef = useRef(false);
   const COUNTRY_QUIZ_MASTER = "COUNTRY QUIZ MASTER";
@@ -64,6 +71,20 @@ const Header = (): React.JSX.Element => {
       ref={ref}
       className="z-50 font-bitcount font-bold sm:p-6 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-2 sticky top-0 w-screen flex justify-center items-center h-[10vh] bg-gray-800 text-white p-4 text-center text-2xl md:text-3xl"
     >
+      {score >= 7 ? (
+        <img
+          className={`transition-all delay-200 ${isFinished && "top-[25%] left-[50%] -translate-x-1/2 -translate-y-1/2"} fixed -top-50`}
+          src={congrats}
+          alt="congratulations image"
+        />
+      ) : (
+        <div
+          className={`transition-all delay-200 ${isFinished && "top-[25%] left-[50%] -translate-x-1/2 -translate-y-1/2"} fixed -top-50 w-[90%] whitespace-nowrap text-shadow-[0_2px_4px] text-shadow-blue-100 h-max p-2 bg-linear-to-r from-pink-500 to-purple-300 rounded-[20px]`}
+        >
+          You can do better!
+        </div>
+      )}
+
       {COUNTRY_QUIZ_MASTER.split("").map((char, index) => {
         return (
           <span key={index} className="relative  inline-block -top-50">

@@ -4,7 +4,7 @@ interface click {
   (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void;
 }
 
-const NumberTab: React.FC<{ onClick: click, reset: boolean }> = ({
+const NumberTab: React.FC<{ onClick: click; reset: boolean }> = ({
   onClick,
   reset,
 }): React.JSX.Element => {
