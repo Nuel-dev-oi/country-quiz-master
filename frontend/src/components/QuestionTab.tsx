@@ -5,15 +5,18 @@ import Options from "./Options";
 import QuestionContext from "./QuestionContext";
 
 const QuestionTab: React.FC<{ setScore: React.Dispatch<number | ((prev: number) => number)>, 
-  number:number, setNumber:React.Dispatch<number>,
-    
+    number:number, setNumber:React.Dispatch<number>,
+    isFinished: boolean,
+    onSetIsFinished: (value: boolean) => void,
     setAnswer: React.Dispatch<string>,
     answer: string,
     reset: boolean,
     setReset: React.Dispatch<boolean>
-  }> = ({ setScore, number, setNumber, setAnswer, answer, reset, setReset }): React.JSX.Element => {
+  }> = ({ setScore, number, setNumber, setAnswer, answer, reset, setReset, isFinished, onSetIsFinished }): React.JSX.Element | null => {
   const questions = useContext(QuestionContext);
   const [options, setOptions] = useState<string[]>([]);
+  const quizQuestions = useMemo(() => questions, [questions]);
+
   const onSetAnswer = useCallback((value: string) => {
     setAnswer(value);
   }, [setAnswer]);
@@ -27,16 +30,20 @@ const QuestionTab: React.FC<{ setScore: React.Dispatch<number | ((prev: number) 
     setNumber(Number(num));
   };
 
+  if (isFinished) {
+    return null;
+  }
+
   return (
-    <section className="sm:mb-25 w-[90%] flex flex-col gap-3 justify-start items-start p-2 bg-blue-950 h-max max-[400px]:h-[80%] md:h-full sm:h-max md:col-start-2 md:col-end-3 md:row-start-2 md:row-end-3 ">
+    <section className={`transition-opacity ${isFinished ? "opacity-0" : "opacity-100"} sm:mb-0 w-[90%] flex flex-col gap-3 justify-start items-start p-2 bg-blue-950 h-max max-[400px]:h-[80%] md:h-full sm:h-max sm:col-start-2 sm:col-end-3 sm:row-start-2 sm:row-end-3 `}>
       <NumberTab onClick={onClick} reset={reset} />
       <Question
         number={number}
-        questions={useMemo(() => questions, [questions])}
+        questions={quizQuestions}
         onSetOptions={onSetOptions}
         onSetAnswer={onSetAnswer}
       />
-      <Options number={number} optionsArr={options} answer={answer}  setScore={setScore} reset={reset} setReset={setReset} />
+      <Options number={number} optionsArr={options} answer={answer} setScore={setScore} reset={reset} setReset={setReset} onSetIsFinished={onSetIsFinished} />
     </section>
   );
 };

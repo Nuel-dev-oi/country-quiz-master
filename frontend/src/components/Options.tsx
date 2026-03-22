@@ -9,7 +9,8 @@ const Options: React.FC<{
   setScore: React.Dispatch<number | ((prev: number) => number)>;
   reset: boolean;
   setReset: React.Dispatch<boolean>;
-}> = ({ optionsArr, number, answer, reset, setScore, setReset }) => {
+  onSetIsFinished: (value: boolean) => void;
+}> = ({ optionsArr, number, answer, reset, setScore, setReset, onSetIsFinished }) => {
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
 
   useEffect(() => {
@@ -34,6 +35,31 @@ const Options: React.FC<{
       setScore((prev) => prev + 1);
     }
   };
+
+  useEffect(() => {
+    const keys = new Set<string>([]);
+    const items = Object.entries(userAnswers);
+    let isAllQuestionsAnswered: boolean | undefined;
+    if (!items.length) return;
+    const handleIsFinished = () => {
+      for (const key in userAnswers) {
+        if (keys.has(key)) {
+          continue;
+        } else {
+          keys.add(key);
+        }
+      }
+      if (Array.from(keys).length === 10) {
+        isAllQuestionsAnswered = Array.from(keys).map((key:string) => userAnswers[Number(key)]).every((value) => value !== undefined);
+          if(!isAllQuestionsAnswered) {
+            onSetIsFinished(false);
+            return;
+          }
+          onSetIsFinished(true);
+        }
+      }
+    handleIsFinished();
+  }, [userAnswers, onSetIsFinished]);
 
   const currentSelection = userAnswers[number];
   const hasAnswered = currentSelection !== undefined;
