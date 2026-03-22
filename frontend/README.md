@@ -1,4 +1,5 @@
 # 🌍 Country Quiz App
+[![Deployed with Vercel](https://vercel.com/button)](https://country-quiz-masters.vercel.app/)
 
 An ultra-fast, interactive, and responsive quiz application designed to test your knowledge of world flags, capitals, and geography. This project is built using modern web standards to ensure a smooth user experience and maintainable code.
 
