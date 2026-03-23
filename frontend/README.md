@@ -21,8 +21,8 @@ An ultra-fast, interactive, and responsive quiz application designed to test you
 ## 📂 Project Structure
 
 ```text
-src/
-|── Frontend/
+Frontend/
+|── src/
     ├── assets/             # SVG icons (Check_round, Close_round, etc.)
     ├── components/         
     │   ├── Layout.tsx      # Main layout wrapper
