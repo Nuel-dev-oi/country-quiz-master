@@ -56,7 +56,6 @@ NODE_ENV=development
 Development Mode (with auto-reload):
 ```bash
 npm run dev
-Production Build:
 ```
 Production Build:
 ```bash
