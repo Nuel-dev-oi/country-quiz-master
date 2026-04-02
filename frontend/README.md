@@ -40,7 +40,7 @@ Frontend/
 - Clone the repository
 ```bash
 git clone [https://github.com/Nuel-dev-oi/country-quiz-master.git](https://github.com/Nuel-dev-oi/country-quiz-master.git)
-cd country-quiz-master
+cd country-quiz-master/frontend
 ```
 - Install Dependencies
 ```bash
